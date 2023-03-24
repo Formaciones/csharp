@@ -7,6 +7,7 @@ Contenidos, Ejemplos y Ejercicios de C#
 ---
 &nbsp;
 ### ***El proyecto Programando.CSharp.ConsoleApp1 contiene:***
+* Comentarios en el fichero de proyecto ***Programando.CSharp.ConsoleApp1.csproj***
 * Declaración de Variables
 * Conversión de Variables
 * Variables Númericas Nulleables
