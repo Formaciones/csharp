@@ -1,4 +1,4 @@
-# Programming CSharp
+# Programando en CSharp
 Contenidos, Ejemplos y Ejercicios de C#
 
 ### ***INFORMACIÓN ADICIONAL***
@@ -6,7 +6,7 @@ Contenidos, Ejemplos y Ejercicios de C#
 &nbsp;
 ---
 &nbsp;
-### ***Programando.CSharp.ConsoleApp1***
+### ***El proyecto Programando.CSharp.ConsoleApp1 contiene:***
 * Declaración de Variables
 * Conversión de Variables
 * Variables Númericas Nulleables
