@@ -1,38 +1,42 @@
 <Project Sdk="Microsoft.NET.Sdk">
+      <PropertyGroup>
+            <OutputType>Exe</OutputType>
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-
-    <!--  TargetFramework = net7.0 Significa que actualmente esta aplicación puede ejecutarse en 
-          el framework .NET 7.0. 
+            <TargetFramework>net7.0</TargetFramework>
+            <!--  TargetFramework = net7.0 Significa que actualmente esta aplicación puede ejecutarse en 
+                  el framework .NET 7.0. 
           
-          Podemos incluir múltiples monikers para múltiples framework aquí, por ejemplo:
-          <TargetFrameworks>net7.0;net7.6</TargetFrameworks>
-          -->
-    <TargetFramework>net7.0</TargetFramework>
+                  Podemos incluir múltiples monikers para múltiples frameworks, por ejemplo:
+                  <TargetFrameworks>net7.0;net7.6</TargetFrameworks>
+                  -->
+            
 
-    <!--  ImplicitUsings = Enable, significa que el compilador agrega automáticamente un conjunto 
-          de directivas using en función del tipo de proyecto. 
-          
-          En el caso de las aplicaciones de consola, las siguientes directivas se incluyen de 
-          forma implícita en la aplicación:
+            <ImplicitUsings>enable</ImplicitUsings>
+            <!--  ImplicitUsings = Enable, significa que el compilador agrega automáticamente un conjunto 
+                  de directivas using en función del tipo de proyecto. 
+            
+                  En el caso de las aplicaciones de consola, las siguientes directivas se incluyen de 
+                  forma implícita en la aplicación son:
 
-          using System;
-          using System.IO;
-          using System.Collections.Generic;
-          using System.Linq;
-          using System.Net.Http;
-          using System.Threading;
-          using System.Threading.Tasks; 
-          -->
-    <ImplicitUsings>enable</ImplicitUsings>
-    
-    <!--  Nullable = Enable, indica que tipo de referencia que acepta valores NULL 
-          lo hace anexando un ? al tipo. 
-          Por ejemplo, string? representa un elemento string que acepta valores NULL. 
-          -->
-    <Nullable>enable</Nullable>
+                  using System;
+                  using System.IO;
+                  using System.Collections.Generic;
+                  using System.Linq;
+                  using System.Net.Http;
+                  using System.Threading;
+                  using System.Threading.Tasks; 
+                  -->
+            
+            <Nullable>enable</Nullable>
+            <!--  Nullable = Enable, indica que tipo de referencia que acepta valores NULL 
+                  lo hace anexando un ? al tipo. 
+                  Por ejemplo, string? representa un elemento string que acepta valores NULL. 
+                  -->
+            
 
-    <Nowarn>CS0168;CS0219;CS8600;CS8601;CS8602;CS8618</Nowarn>
-  </PropertyGroup>
+            <!--  Nowarn nos permite indicar los código de los warning que queremos ocultar
+                  No se muestran los warnings con código CS0168, CS0219, ...
+                  -->
+            <Nowarn>CS0168;CS0219;CS8600;CS8601;CS8602;CS8618</Nowarn>
+      </PropertyGroup>
 </Project>
