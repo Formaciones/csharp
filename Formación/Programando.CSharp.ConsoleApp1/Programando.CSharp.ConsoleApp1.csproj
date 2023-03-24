@@ -2,9 +2,37 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
 
+    <!--  TargetFramework = net7.0 Significa que actualmente esta aplicación puede ejecutarse en 
+          el framework .NET 7.0. 
+          
+          Podemos incluir múltiples monikers para múltiples framework aquí, por ejemplo:
+          <TargetFrameworks>net7.0;net7.6</TargetFrameworks>
+          -->
+    <TargetFramework>net7.0</TargetFramework>
+
+    <!--  ImplicitUsings = Enable, significa que el compilador agrega automáticamente un conjunto 
+          de directivas using en función del tipo de proyecto. 
+          
+          En el caso de las aplicaciones de consola, las siguientes directivas se incluyen de 
+          forma implícita en la aplicación:
+
+          using System;
+          using System.IO;
+          using System.Collections.Generic;
+          using System.Linq;
+          using System.Net.Http;
+          using System.Threading;
+          using System.Threading.Tasks; 
+          -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!--  Nullable = Enable, indica que tipo de referencia que acepta valores NULL 
+          lo hace anexando un ? al tipo. 
+          Por ejemplo, string? representa un elemento string que acepta valores NULL. 
+          -->
+    <Nullable>enable</Nullable>
+
+    <Nowarn>CS0168;CS0219;CS8600;CS8601;CS8602;CS8618</Nowarn>
+  </PropertyGroup>
 </Project>
