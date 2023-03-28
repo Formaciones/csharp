@@ -7,7 +7,7 @@
                   el framework .NET 7.0. 
           
                   Podemos incluir múltiples monikers para múltiples frameworks, por ejemplo:
-                  <TargetFrameworks>net7.0;net7.6</TargetFrameworks>
+                  <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
                   -->
             
 
@@ -38,4 +38,9 @@
                   No se muestran los warnings con código CS0168, CS0219, ...
                   -->
       </PropertyGroup>
+
+      <ItemGroup>
+            <!--  Dependencias de proyecto -->
+            <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      </ItemGroup>
 </Project>

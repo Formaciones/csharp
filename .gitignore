@@ -349,6 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# Visual Studio code cache/options directory
+# Visual Studio Code cache/options directory
 .vscode/
 .vscode/*

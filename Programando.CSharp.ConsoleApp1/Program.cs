@@ -280,7 +280,7 @@ namespace Programando.CSharp.ConsoleApp1
             }
 
             //Opción 2, utilizando IF/ELSE
-            if (fumador.ToLower().Trim() == "si" || fumador.ToLower().Trim() == "sí") reserva.fumador = true;
+            if (fumador.ToLower().Trim() == " si" || fumador.ToLower().Trim() == "sí") reserva.fumador = true;
             else reserva.fumador = false;
 
             //Opción 3, utilizando condición ? :
@@ -469,7 +469,7 @@ namespace Programando.CSharp.ConsoleApp1
             foreach (var num in numeros)
             {
                 suma += num;
-                if (min > max) max = num;
+                if (num > max) max = num;
                 if (num < min) min = num;
             }
             Console.WriteLine($"Suma total: {suma}");
