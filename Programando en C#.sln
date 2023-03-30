@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.ConsoleA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.ConsoleApp3", "Programando.CSharp.ConsoleApp3\Programando.CSharp.ConsoleApp3.csproj", "{2F942CFF-F591-45B8-B393-B8557B4D687D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programando.CSharp.Ejercicios.ConsoleApp1", "Programando.CSharp.Ejercicios.ConsoleApp1\Programando.CSharp.Ejercicios.ConsoleApp1.csproj", "{4648AEAC-8DDD-4E18-938F-8F0B5CF90C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.Ejercicios.ConsoleApp1", "Programando.CSharp.Ejercicios.ConsoleApp1\Programando.CSharp.Ejercicios.ConsoleApp1.csproj", "{4648AEAC-8DDD-4E18-938F-8F0B5CF90C4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programando.CSharp.ConsoleEF", "Programando.CSharp.ConsoleEF\Programando.CSharp.ConsoleEF.csproj", "{1CF7DFAA-94E9-4911-BC38-212596AF7862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{4648AEAC-8DDD-4E18-938F-8F0B5CF90C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4648AEAC-8DDD-4E18-938F-8F0B5CF90C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4648AEAC-8DDD-4E18-938F-8F0B5CF90C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF7DFAA-94E9-4911-BC38-212596AF7862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF7DFAA-94E9-4911-BC38-212596AF7862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF7DFAA-94E9-4911-BC38-212596AF7862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF7DFAA-94E9-4911-BC38-212596AF7862}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

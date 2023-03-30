@@ -52,6 +52,7 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 	/// </summary>
 	public static class DataLists
 	{
+		// Variables privadas
 		private static List<Cliente> _listaClientes = new List<Cliente>()
 			{
 				new Cliente { Id = 1,   Nombre = "Carlos Gonzalez Rodriguez",   FechaNac = new DateTime(1980, 10, 10) },
@@ -60,7 +61,7 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 				new Cliente { Id = 4,   Nombre = "Fernando Martinez Perez",     FechaNac = new DateTime(1981, 8, 5) },
 				new Cliente { Id = 5,   Nombre = "Lucia Garcia Sanchez",        FechaNac = new DateTime(1973, 11, 3) }
 			};
-
+		
 		private static List<Producto> _listaProductos = new List<Producto>()
 			{
 				new Producto { Id = 1,      Descripcion = "Boligrafo",          Precio = 0.35f },
@@ -123,7 +124,12 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 			};
 
 		// Propiedades de los elementos privados
-		public static List<Cliente> ListaClientes { get { return _listaClientes; } }
+		public static List<Cliente> ListaClientes { 
+			get 
+			{ 
+				return _listaClientes; 
+			} 
+		}
 		public static List<Producto> ListaProductos { get { return _listaProductos; } }
 		public static List<Pedido> ListaPedidos { get { return _listaPedidos; } }
 		public static List<LineaPedido> ListaLineasPedido { get { return _listaLineasPedido; } }
