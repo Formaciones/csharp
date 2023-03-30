@@ -6,8 +6,84 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 	{
 		static void Main(string[] args)
 		{
-			Console.Clear();
-			Ejercicios();
+			while(true)
+
+			{
+				Console.Clear();
+				Console.ForegroundColor = ConsoleColor.Yellow;
+				Console.WriteLine("".PadRight(56, '*'));
+				Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+				Console.WriteLine("".PadRight(56, '*'));
+				Console.WriteLine("*".PadRight(55) + "*");
+				Console.WriteLine("*  1. Consultas Básicas".PadRight(55) + "*");
+				Console.WriteLine("*  2. Otros Ejemplos".PadRight(55) + "*");
+				Console.WriteLine("*  3. Cliente mayores de 45 años".PadRight(55) + "*");
+				Console.WriteLine("*  4. Productos que comienza C ordenador por precio".PadRight(55) + "*");
+				Console.WriteLine("*  5. Listar detalle de un pedido".PadRight(55) + "*");
+				Console.WriteLine("*  6. Mostrar el importe total de un pedido".PadRight(55) + "*");
+				Console.WriteLine("*  7. Mostrar pedidos con Lapicero".PadRight(55) + "*");
+				Console.WriteLine("*  8. Número de pedidos con Cuaderno Grande".PadRight(55) + "*");
+				Console.WriteLine("*  9. Unidades vendidas de Cuaderno Pequeño".PadRight(55) + "*");
+				Console.WriteLine("* 10. El pedido con más unidades".PadRight(55) + "*");
+				Console.WriteLine("* 11. Listado de pedidos ordernados por fecha ".PadRight(55) + "*");
+				Console.WriteLine("* 90. Salir".PadRight(55) + "*");
+				Console.WriteLine("*".PadRight(55) + "*");
+				Console.WriteLine("".PadRight(56, '*'));
+
+				Console.WriteLine(Environment.NewLine);
+				Console.Write("   Opción: ");
+
+				Console.ForegroundColor = ConsoleColor.Cyan;
+
+				int.TryParse(Console.ReadLine(), out int opcion);
+				switch (opcion)
+				{
+					case 1:
+						ConsultasBasicas();
+						break;
+					case 2:
+						OtrosEjemplos();
+						break;
+					case 3:
+						Ejercicio1();
+						break;
+					case 4:
+						Ejercicio2();
+						break;
+					case 5:
+						Ejercicio3();
+						break;
+					case 6:
+						Ejercicio4();
+						break;
+					case 7:
+						Ejercicio5();
+						break;
+					case 8:
+						Ejercicio6();
+						break;
+					case 9:
+						Ejercicio7();
+						break;
+					case 10:
+						Ejercicio8();
+						break;
+					case 11:
+						Ejercicio9();
+						break;
+					case 90:
+						return;
+					default:
+						Console.ForegroundColor = ConsoleColor.Red;
+						Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+						break;
+				}
+
+				Console.WriteLine(Environment.NewLine);
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.WriteLine("Pulsa una tecla para continuar...");
+				Console.ReadKey();
+			}
 		}
 
 		static void ConsultasBasicas()
@@ -112,12 +188,17 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			foreach (var item in r5d) Console.WriteLine($"{item}");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-			// Otros Ejemplos
+		static void OtrosEjemplos()
+		{
+			////////////////////////////////////////////////////////////
+			// CONTIENE, COMIENZA O FINALIZA
+			////////////////////////////////////////////////////////////
 
 			//	Contains -> Contiene; StartsWith -> Comienza; EndsWith -> Finaliza
 
-			var r6a = DataLists.ListaProductos              
+			var r6a = DataLists.ListaProductos
 				.Where(r => r.Descripcion.ToLower().Contains("boli"))
 				.Select(r => r);
 
@@ -129,20 +210,11 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 				.Where(r => r.Id == 4)
 				.FirstOrDefault();
 
-			// Páginación en DB
-			var lista = DataLists.ListaProductos
-				.OrderBy(r => r.Descripcion)
-				.Skip(5)
-				.Take(5)
-				.Select(r => r);
 
-			// Paginación en PC
-			var lista2 = DataLists.ListaProductos
-				.OrderBy(r => r.Descripcion)
-				.Select(r => r)
-				.Skip(5)
-				.Take(5);
-				
+
+			////////////////////////////////////////////////////////////
+			// AGREGACIÓN
+			////////////////////////////////////////////////////////////
 
 			// Count -> Cuenta los elmentos
 			// Distinct -> Valor distinto
@@ -160,13 +232,32 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 				.Count(r => r.Precio < 0.90);
 
 			var r7c = (from r in DataLists.ListaProductos
-					  where r.Precio < 0.90
-					  select r.Descripcion).Count();
+					   where r.Precio < 0.90
+					   select r.Descripcion).Count();
+
+
+
+			////////////////////////////////////////////////////////////
+			// PAGINACIÓN
+			////////////////////////////////////////////////////////////
+			
+			// Páginación en DB
+			var lista = DataLists.ListaProductos
+				.OrderBy(r => r.Descripcion)
+				.Skip(5)
+				.Take(5)
+				.Select(r => r);
+
+			// Paginación en PC
+			var lista2 = DataLists.ListaProductos
+				.OrderBy(r => r.Descripcion)
+				.Select(r => r)
+				.Skip(5)
+				.Take(5);
 		}
 
-		static void Ejercicios()
+		static void Ejercicio1()
 		{
-			// Listado de clientes mayores de 40 años
 			var clientes = DataLists.ListaClientes
 				.Where(r => (DateTime.Now.Subtract(r.FechaNac).TotalDays / 365) > 40)
 				.ToList();
@@ -181,19 +272,22 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			foreach (var item in clientes) Console.WriteLine($"{item.Id}# {item.Nombre}");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Listado de productos que comiencen por la letra C ordenador por precio
-
+		static void Ejercicio2()
+		{
 			var productos = DataLists.ListaProductos
 				.Where(r => r.Descripcion.ToLower().StartsWith("c"))
 				.Select(r => r);
 
 			foreach (var item in productos) Console.WriteLine($"{item.Id}# {item.Descripcion}");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Preguntar por el id de un pedido y listar el contenido
+		static void Ejercicio3()
+		{
+			// Listar Id, Descripción, Cantidad y Precio de los productos de un pedido
+			
 			Console.Write("Número de Pedido: ");
 			int idPedido = Convert.ToInt32(Console.ReadLine());
 
@@ -217,13 +311,14 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 					$"{item.Cantidad.ToString("N0").PadLeft(6)}" +
 					$"{item.Precio.ToString("N2").PadLeft(8)}" +
 					$"{(item.Precio * item.Cantidad).ToString("N2").PadLeft(8)}");
+
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Preguntar por el id de un pedido y mostrar el total
-			
+		static void Ejercicio4()
+		{
 			Console.Write("Número de Pedido: ");
-			int idPedido2 = Convert.ToInt32(Console.ReadLine());
+			int idPedido = Convert.ToInt32(Console.ReadLine());
 
 			var total = DataLists.ListaLineasPedido
 				.Where(r => r.IdPedido == idPedido)
@@ -234,15 +329,13 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			Console.WriteLine($"Importe Total: {total.ToString("N2")}");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Listado de pedidos que contengan Lapicero (11)
-
+		static void Ejercicio5()
+		{
 			var ids = DataLists.ListaProductos
 				.Where(r => r.Descripcion.ToLower().Contains("lapicero"))
 				.Select(r => r.Id);
-
-
 
 			var idPedidos = DataLists.ListaLineasPedido
 				.Where(r => ids.Contains(r.IdProducto))
@@ -251,10 +344,10 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			foreach (var item in idPedidos) Console.WriteLine($"ID Pedido: {item}  (contiene Lapicero)");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Cantidad de pedidos que contengan Cuaderno Grande
-
+		static void Ejercicio6()
+		{
 			var idCuaderno = DataLists.ListaProductos
 				.Where(r => r.Descripcion.ToLower() == "cuaderno grande")
 				.Select(s => s.Id)
@@ -266,10 +359,10 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			Console.WriteLine($"{numPedidos} pedidos contienen Cuaderno Grande");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-
-			// Unidad vendidas de Cuaderno Pequeño
-
+		static void Ejercicio7()
+		{
 			var unidades = DataLists.ListaLineasPedido
 				.Where(r => DataLists.ListaProductos
 								.Where(s => s.Descripcion.ToLower() == "cuaderno pequeño")
@@ -280,9 +373,10 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			Console.WriteLine($"{unidades} Cuadernos Pequeños vendidos");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-			// El pedido que más unidades contiene
-
+		static void Ejercicio8()
+		{
 			var pedido = DataLists.ListaLineasPedido
 				.GroupBy(r => r.IdPedido)
 				.Select(r => new { r.Key, Unidades = r.Sum(s => s.Cantidad) })
@@ -291,9 +385,10 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 
 			Console.WriteLine($"ID Pedido: {pedido.Key} (mayor número de unidades ({pedido.Unidades}))");
 			Console.WriteLine(Environment.NewLine);
+		}
 
-			// Listado de pedidos orderna por fecha 
-
+		static void Ejercicio9()
+		{
 			var pedidos = DataLists.ListaPedidos
 				.OrderBy(r => r.FechaPedido)
 				.Select(r => r);
@@ -301,76 +396,6 @@ namespace Programando.CSharp.Ejercicios.ConsoleApp1
 			foreach (var item in pedidos) 
 			Console.WriteLine($"Fecha: {item.FechaPedido.ToShortDateString()}  -> {item.Id.ToString().PadLeft(3)}");
 			Console.WriteLine(Environment.NewLine);
-
-		}
-
-		static void Soluciones()
-		{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			int id = 2;
-
-			var lineas = DataLists.ListaLineasPedido
-				.Where(r => r.IdPedido == id)
-				.Select(r => r);
-
-
-			float total = 0;
-			foreach (var item in lineas)
-			{
-				var producto = DataLists.ListaProductos
-					.Where(r => r.Id == item.IdProducto)
-					.Select(r => new { r.Descripcion, r.Precio })
-					.FirstOrDefault();
-
-				total = total + (item.Cantidad * producto.Precio);
-					
-			}
-			Console.WriteLine($"Total: {total.ToString("N2")}");
-
-			var lineas2 = DataLists.ListaLineasPedido
-				.Where(r => r.IdPedido == id)
-				.Select(r => new { 
-					r.IdProducto,
-					r.Cantidad,
-					Descripcion = DataLists.ListaProductos
-									.Where(s => s.Id == r.IdProducto)
-									.Select(s => s.Descripcion)
-									.FirstOrDefault(),
-					Precio = DataLists.ListaProductos
-								.Where(s => s.Id == r.IdProducto)
-								.Select(s => s.Precio)
-								.FirstOrDefault() });
-
-			var lineas3 = from r in DataLists.ListaLineasPedido
-						  where r.IdPedido == id
-						  select new
-						  {
-							  r.IdProducto,
-							  r.Cantidad,
-							  Descripcion = (from s in DataLists.ListaProductos
-											 where s.Id == r.IdProducto
-											 select s.Descripcion).FirstOrDefault(),
-							  Precio = (from s in DataLists.ListaProductos
-										where s.Id == r.IdProducto
-										select s.Precio).FirstOrDefault()
-						  };
-
-			foreach (var item in lineas2) Console.WriteLine($"{item.Descripcion}");
-
 		}
 	}
 }

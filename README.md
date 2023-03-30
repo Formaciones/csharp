@@ -3,6 +3,10 @@ Contenidos, Ejemplos y Ejercicios de C#
 
 ### ***INFORMACIÓN ADICIONAL***
 * [*Operadores*](https://github.com/Formaciones/csharp/blob/main/OPERADORES.md)
+---
+* [*Entity Framework Core*](https://github.com/Formaciones/csharp/blob/main/EF.md)
+---
+* [*MICROSOFT LEARN PARA .NET*](https://docs.microsoft.com/es-es/learn/dotnet/)
 &nbsp;
 ---
 &nbsp;
@@ -27,4 +31,37 @@ Contenidos, Ejemplos y Ejercicios de C#
 &nbsp;
 ### ***El proyecto Programando.CSharp.ConsoleApp3 contiene:***
 * Colecciones, Arrays
+* Colecciones, ArrayList
+* Colecciones, Hastable
+* Colecciones, List
+* Colecciones, Dictonary
+* Colecciones, añadir item de tipo referencia
+* [***Más Información***](https://docs.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/collections)
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.ConsoleEF contiene:***
+* Trabajando con EF
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.Ejercicios.ConsoleApp1 contiene:***
+* LINQ, Consultas Básicas
+* LINQ, Otras Consultas
+* ***EJERCICIO 1:*** Cliente mayores de 45 años
+* ***EJERCICIO 2:*** Productos que comienza C ordenador por precio
+* ***EJERCICIO 3:*** Listar detalle de un pedido
+* ***EJERCICIO 4:*** Mostrar el importe total de un pedido
+* ***EJERCICIO 5:*** Mostrar pedidos con Lapicero
+* ***EJERCICIO 6:*** Número de pedidos con Cuaderno Grande
+* ***EJERCICIO 7:*** Unidades vendidas de Cuaderno Pequeño
+* ***EJERCICIO 8:*** El pedido con más unidades
+* ***EJERCICIO 9:*** Listado de pedidos ordernados por fecha 
+* [***Más Información***](https://learn.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/linq/)
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.Ejercicios.ConsoleApp1 contiene:***
+* ***EJERCICIOS:*** Entity Framework Core con LINQ
+* [***Más Información***](https://learn.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/linq/)
 &nbsp;
