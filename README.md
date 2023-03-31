@@ -41,7 +41,13 @@ Contenidos, Ejemplos y Ejercicios de C#
 ---
 &nbsp;
 ### ***El proyecto Programando.CSharp.ConsoleEF contiene:***
-* Trabajando con EF
+* Consultas con ADO.NET
+* Trabajando con Entity Framework Core
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.WebApplication1 contiene:***
+* Integración de Entity Framework Core en una aplicación Web MVC
 &nbsp;
 ---
 &nbsp;
@@ -61,7 +67,7 @@ Contenidos, Ejemplos y Ejercicios de C#
 &nbsp;
 ---
 &nbsp;
-### ***El proyecto Programando.CSharp.Ejercicios.ConsoleApp1 contiene:***
+### ***El proyecto Programando.CSharp.Ejercicios.ConsoleApp2 contiene:***
 * ***EJERCICIOS:*** Entity Framework Core con LINQ
 * [***Más Información***](https://learn.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/linq/)
 &nbsp;

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Programando.CSharp.Ejercicios.ConsoleApp2": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:49187;http://localhost:49188"
+    }
+  }
+}

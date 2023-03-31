@@ -32,7 +32,7 @@ Scaffold-DbContext "Server=LOCALHOST;Database=NORTHWIND;Trusted_Connection=True;
 ```
 
 ```
-Scaffold-DbContext "server=localhost;port=3306;user=root;password=pass;database=northwind" MySql.Data.EntityFrameworkCore -OutputDir "Models" -ContextDir "Models" -Context "ModelAnatteaSGIIC" -UseDatabaseNames -Force
+Scaffold-DbContext "server=localhost;port=3306;user=root;password=pass;database=northwind" MySql.Data.EntityFrameworkCore -OutputDir "Models" -ContextDir "Models" -Context "ModelNorthwind" -UseDatabaseNames -Force
 ```
 
 ```

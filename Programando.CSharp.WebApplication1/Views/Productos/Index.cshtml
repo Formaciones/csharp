@@ -1,0 +1,52 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "Clientes | Listado";
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('table').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}
+
+<br />
+<div class="row">
+    <h1>Listado de Clientes</h1>
+    <hr />
+    <br />
+    <br />
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td><b>ID Producto</b></td>
+                    <td><b>Descripción</b></td>
+                    <td><b>Categoría</b></td>
+                    <td><b>Stock</b></td>
+                    <td><b>Precio</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductID</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Category.CategoryName</td>
+                        <td>@item.UnitsInStock</td>
+                        <td>@item.UnitPrice</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<br />
