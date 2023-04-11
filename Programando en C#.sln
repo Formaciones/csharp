@@ -17,7 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.ConsoleE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.Ejercicios.ConsoleApp2", "Programando.CSharp.Ejercicios.ConsoleApp2\Programando.CSharp.Ejercicios.ConsoleApp2.csproj", "{182D5A98-C34A-4978-8E66-497330523102}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programando.CSharp.WebApplication1", "Programando.CSharp.WebApplication1\Programando.CSharp.WebApplication1.csproj", "{368CA4A2-DD85-44D8-9679-FEF48700FB84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Programando.CSharp.WebApplication1", "Programando.CSharp.WebApplication1\Programando.CSharp.WebApplication1.csproj", "{368CA4A2-DD85-44D8-9679-FEF48700FB84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programando.CSharp.WebAPI1", "Programando.CSharp.WebAPI1\Programando.CSharp.WebAPI1.csproj", "{AD27E7E0-1751-4698-9AA9-87AD51B0DA76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Programando.CSharp.ConsoleHttpClient", "Programando.CSharp.ConsoleHttpClient\Programando.CSharp.ConsoleHttpClient.csproj", "{53505E8B-93B0-438B-B41D-85E95123E9CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,14 @@ Global
 		{368CA4A2-DD85-44D8-9679-FEF48700FB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{368CA4A2-DD85-44D8-9679-FEF48700FB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{368CA4A2-DD85-44D8-9679-FEF48700FB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD27E7E0-1751-4698-9AA9-87AD51B0DA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD27E7E0-1751-4698-9AA9-87AD51B0DA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD27E7E0-1751-4698-9AA9-87AD51B0DA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD27E7E0-1751-4698-9AA9-87AD51B0DA76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53505E8B-93B0-438B-B41D-85E95123E9CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53505E8B-93B0-438B-B41D-85E95123E9CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53505E8B-93B0-438B-B41D-85E95123E9CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53505E8B-93B0-438B-B41D-85E95123E9CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

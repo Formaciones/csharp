@@ -1,0 +1,35 @@
+﻿@model List<Employee>
+
+
+<div class="row">
+    <div class="col">
+        <h1>Listado de Empleados</h1>
+        <hr />
+        <br />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td><b>ID</b></td>
+                    <td><b>Nombre</b></td>
+                    <td><b>Cargo</b></td>
+                    <td><b>Ciudad</b></td>
+                    <td><b>País</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                <tr>
+                    <td>@item.EmployeeID</td>
+                    <td>@item.FirstName @item.LastName</td>
+                    <td>@item.Title</td>
+                    <td>@item.City</td>
+                    <td>@item.Country</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<br />
