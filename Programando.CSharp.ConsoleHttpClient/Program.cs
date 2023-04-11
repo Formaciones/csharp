@@ -13,7 +13,7 @@ namespace Programando.CSharp.ConsoleHttpClient
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("http://localhost:5195/api/");
 
-            GetCustomers3();
+            GetCustomers();
         }
 
         static void GetCustomers()
