@@ -1,10 +1,14 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Programando.CSharp.ConsoleEF.Model;
 using System.Text.Json.Serialization;
 using System.Dynamic;
+using System.Text.Json;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Programando.CSharp.ConsoleHttpClient
 {
@@ -15,10 +19,59 @@ namespace Programando.CSharp.ConsoleHttpClient
         static void Main(string[] args)
         {
             _httpClient = new HttpClient();
-            //_httpClient.BaseAddress = new Uri("http://localhost:5195/api/");
-            _httpClient.BaseAddress = new Uri("https://api.zippopotam.us/");
+            _httpClient.BaseAddress = new Uri("http://localhost:5195/api/");
+            //_httpClient.BaseAddress = new Uri("https://api.zippopotam.us/");
 
-            GetCustomersPostalCode2b();
+            Eco2();
+        }
+
+
+        static void Eco()
+        {
+            var http = new HttpClient();
+            http.BaseAddress = new Uri("https://postman-echo.com/");
+
+            http.DefaultRequestHeaders.Clear();
+            http.DefaultRequestHeaders.Add("X-Param-1", "Demo");
+            http.DefaultRequestHeaders.Add("X-Param-2", "Demo");
+            http.DefaultRequestHeaders.Add("User-Agent", "HttpClient .NET Core");
+
+            http.DefaultRequestHeaders.Add("Accept", "application/json");
+            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var obj = new { Nombre = "Borja Cabeza", Country = "Spain" };
+            var body = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+            var response = http.PostAsync("post?p1=demo1&p2=demo2", body).Result;
+            if (response.StatusCode == HttpStatusCode.OK)
+            { 
+                var data = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(data);
+            }
+        }
+
+        static void Eco2()
+        {
+            var http = new HttpClient();
+            http.BaseAddress = new Uri("https://postman-echo.com/");
+
+            http.DefaultRequestHeaders.Clear();
+            http.DefaultRequestHeaders.Add("User-Agent", "HttpClient .NET Core");
+            http.DefaultRequestHeaders.Add("Accept", "application/json");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "post?p1=demo1&p2=demo2");
+            request.Headers.Add("X-Param-10", "Demo 10");
+            request.Headers.Add("X-Param-20", "Demo 20");
+
+            var obj = new { Nombre = "Borja Cabeza", Country = "Spain" };
+            request.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            
+            var response = http.SendAsync(request).Result;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var data = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(data);
+            }
         }
 
         static void GetCustomers()
@@ -100,6 +153,68 @@ namespace Programando.CSharp.ConsoleHttpClient
             else Console.WriteLine("Cliente no encontrado");
         }
 
+        static void PostCustomer()
+        {
+            Console.Clear();
+            Console.Write("ID Cliente: ");
+            string id = Console.ReadLine();
+
+            Customer cliente = new Customer()
+            {
+                CustomerID = id,
+                CompanyName = $"Empresa {id}, SL",
+                ContactName = "Borja Cabeza",
+                City = "Madrid",
+                Country = "Spain"
+            };
+
+            string clienteJSON = JsonConvert.SerializeObject(cliente);
+            StringContent contenido = new StringContent(clienteJSON, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = _httpClient.PostAsync("customers", contenido).Result;
+            if (response.StatusCode == HttpStatusCode.Created)
+            {
+                Customer data = JsonConvert.DeserializeObject<Customer>(response.Content.ReadAsStringAsync().Result);
+                Console.WriteLine($"Creado el cliente {data.CompanyName}");
+            }
+            else Console.WriteLine($"Error: {response.StatusCode}");
+        }
+
+        static void PutCustomer()
+        {
+            Console.Clear();
+            Console.Write("ID Cliente: ");
+            string id = Console.ReadLine();
+
+            var cliente = _httpClient.GetFromJsonAsync<Customer>($"customers/{id}").Result;
+
+            cliente.ContactName = "Ana Trujollo";
+            cliente.Phone = "900 900 900";
+
+            string clienteJSON = JsonConvert.SerializeObject(cliente);
+            StringContent contenido = new StringContent(clienteJSON, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = _httpClient.PutAsync($"customers/{id}", contenido).Result;
+            if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                Console.WriteLine($"Cliente {id}, modificado correctamente");
+            }
+            else Console.WriteLine($"Error: {response.StatusCode}");
+        }
+
+        static void DeleteCustomers()
+        {
+            Console.Clear();
+            Console.Write("ID Cliente: ");
+            var id = Console.ReadLine();
+
+            HttpResponseMessage response = _httpClient.DeleteAsync($"customers/{id}").Result;
+
+            if (response.StatusCode == HttpStatusCode.NoContent) 
+                Console.WriteLine($"Cliente {id}, eliminado correctamente.");
+            else Console.WriteLine($"Error: {response.StatusCode}");
+        }
+
         static void GetCustomersPostalCode() 
         {
             Console.Clear();
@@ -165,10 +280,10 @@ namespace Programando.CSharp.ConsoleHttpClient
 
             var info = _httpClient.GetFromJsonAsync<dynamic>($"es/{code}").Result;
 
-            Console.WriteLine($"{info["country"]} - {info["country abbreviation"]}");
-            foreach (var item in info["places"])
+            Console.WriteLine($"{info.GetProperty("country")} - {info.GetProperty("country abbreviation")}");
+            foreach (var item in info.GetProperty("places").EnumerateArray())
             {
-                Console.WriteLine($" -> {item["place name"]} ({item["state"]})");
+                Console.WriteLine($" -> {item.GetProperty("place name")} ({item.GetProperty("state")})");
             }
         }
 
