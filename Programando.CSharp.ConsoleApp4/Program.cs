@@ -1,453 +1,472 @@
 ﻿using Programando.CSharp.ConsoleEF.Model;
+using Programando.CSharp.Objects;
 
 namespace Programando.CSharp.ConsoleApp4
 {
     internal class Program
     {
-        public class Alumno { }
-
+        /// <summary>
+        /// Inicio del programa
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Console.WriteLine("INICIO MAIN");
-            Adicionar<int>(30, 40);
-            Adicionar<string>("Hola", "Mundo");
-            Adicionar<decimal>(30.5M, 33.16M);
+            while (true)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*  DEMO Y EJERCICIOS".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("*  1. Crear Tareas".PadRight(55) + "*");
+                Console.WriteLine("*  2. Ejecutar métodos en paralelo".PadRight(55) + "*");
+                Console.WriteLine("*  3. Ejecutar un FOR en paralelo".PadRight(55) + "*");
+                Console.WriteLine("*  4. Ejecutar un FOREACH en paralelo".PadRight(55) + "*");
+                Console.WriteLine("*  5. Ejecutar comandos de LINQ en paralelo".PadRight(55) + "*");
+                Console.WriteLine("*  6. Utilizar async/await".PadRight(55) + "*");
+                Console.WriteLine("*  9. Salir".PadRight(55) + "*");
+                Console.WriteLine("*".PadRight(55) + "*");
+                Console.WriteLine("".PadRight(56, '*'));
 
-            var obj = new DemoObject2<int>();
-            obj.a = 20;
-            obj.b = 30;
-            obj.Adicionar();
+                Console.WriteLine(Environment.NewLine);
+                Console.Write("   Opción: ");
 
-            Console.WriteLine("FIN MAIN");
+                Console.ForegroundColor = ConsoleColor.Cyan;
 
-            Console.ReadKey();
-            Console.WriteLine("FIN MAIN despues del ReadKey");
+                int.TryParse(Console.ReadLine(), out int opcion);
+                switch (opcion)
+                {
+                    case 1:
+                        CrearTareas();
+                        break;
+                    case 2:
+                        ParallelInvoke();
+                        break;
+                    case 3:
+                        ParallelFor();
+                        break;
+                    case 4:
+                        ParallelForeach();
+                        break;
+                    case 5:
+                        ParallelLinq();
+                        break;
+                    case 6:
+                        Console.WriteLine("INICIO DEL MAIN");
+                        DemoAsync();
+                        Console.WriteLine("FIN DEL MAIN");
+                        break;
+                    case 9:
+                        return;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(Environment.NewLine + $"La opción {opcion} no es valida.");
+                        break;
+                }
+
+                Console.WriteLine(Environment.NewLine);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Pulsa una tecla para continuar...");
+                Console.ReadKey();
+            }
         }
 
-        static void Adicionar<T>(T a, T b)
+        /// <summary>
+        /// Creación de Tareas
+        /// </summary>
+        static void CrearTareas()
         {
-            if (typeof(T) == typeof(string)) 
-            {
-                string n1 = Convert.ToString(a);
-                string n2 = Convert.ToString(b);
+            // Tarea creada con un método estático
+            Task tarea1 = new Task(new Action(Demos.MetodoTest));
 
-                Console.WriteLine($"{n1 + n2}");
-            }
-            else if (typeof(T) == typeof(int)) 
-            {
-                int n1 = Convert.ToInt32(a);
-                int n2 = Convert.ToInt32(b);
+            // Tarea creada con delegate
+            Task tarea2 = new Task(delegate {
+                Console.WriteLine($"Método anónimo creado con delegate.");
+            });
 
-                Console.WriteLine($"{n1 + n2}");
-            }
-            else 
+            // Tarea creada con un método anónimo y expresión lambda
+            Task tarea3 = new Task(() => {
+                Console.WriteLine($"Método anónimo creado con expresión lambda.");
+            });
+
+            // Tarea que llama a un método estático
+            Task tarea4 = new Task(() => Demos.MetodoTest());
+
+            // Tarea que comienza automáticamente a ejecutarse
+            Task tarea5 = Task.Run(() => {
+                Console.WriteLine($"Método Anónimo, tarea 5.");
+            });
+
+            // Tarea que comienza automáticamente a ejecutarse y retorna un STRING
+            Task<string> tarea6 = Task<string>.Run(() => {
+                Thread.Sleep(3000);     // Retardo de 3s para test
+                return $"Método Anónimo, tarea 6.";
+            });
+
+            // Tarea que comienza automáticamente a ejecutarse y retorna un INT
+            // La tarea tiene un token de cancelación que nos permite parar la ejecución del código si fuese necesario
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken ct = cts.Token;
+            Task<int> tarea7 = Task<int>.Run(() => {
+                return Demos.MetodoTest(ct);
+            });
+
+            // La propiedad .Status muestra el estado de la tarea
+            Console.WriteLine($"Estado 1: {tarea1.Status}");
+            Console.WriteLine($"Estado 7: {tarea7.Status}");
+
+            // El método .Start() inicia la ejecución de una tarea
+            tarea1.Start();
+            tarea2.Start();
+
+            // La propiedad .Status muestra el estado de la tarea
+            Console.WriteLine($"Estado 1: {tarea1.Status}");
+            Console.WriteLine($"Estado 7: {tarea7.Status}");
+
+            // El método .Wait() paraliza la ejecución del hilo actual hasta que la tarea finaliza
+            // Se puede fijar un limite de espera en milisegundos
+            // Consultar la propiedad .Result tiene el mismo efecto que ejecutar el método .Wait()
+            tarea6.Wait();
+            tarea6.Wait(2000);
+            Console.WriteLine(tarea6.Result);
+
+            Task[] tareas = { tarea1, tarea2, tarea6 };
+
+            // El método estático .WaitAll() paralizan la ejecución del hilo actual hasta que todas las tareas de un array finalizan
+            Task.WaitAll(tareas);
+            Task.WaitAll(tareas, 1000);
+
+            // El método estático .WaitAny() paralizan la ejecución del hilo actual hasta que alguna de las tareas de un array finaliza
+            Task.WaitAny(tareas);
+            Task.WaitAny(tareas, 2000);
+
+            // El método .Start() inicia la ejecución de una tarea
+            tarea3.Start();
+            tarea4.Start();
+
+            // Al ejecutar el método .Cancel() del token de calcelación finaliza la ejecución de la tarea
+            cts.Cancel();
+            Console.WriteLine(tarea7.Result);
+
+            // La propiedad .Status muestra el estado de la tarea
+            Console.WriteLine($"Estado 1: {tarea1.Status}");
+            Console.WriteLine($"Estado 7: {tarea7.Status}");
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Tareas anidadas, que contiene otras tareas
+            // Las tarea externa puede finalizar sin que las tareas internas hayan finalizado
+            ///////////////////////////////////////////////////////////////////////////////////////
+
+            Task externa = Task.Run(() =>
             {
-                Console.WriteLine("No se puede procesar");
-            }
+                Console.WriteLine("Tarea Externa Comienza");
+                Task interna = Task.Run(() =>
+                {
+                    Console.WriteLine("Tarea Interna Comienza");
+                    Thread.SpinWait(10000);
+                    Console.WriteLine("Tarea Interna Finaliza");
+                });
+            });
+            externa.Wait();
+            Console.WriteLine("Tarea Externa Finaliza");
+
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+            // Tareas hijas, que contiene otras tareas
+            // Las tarea padre no puede finalizar hasta que las tareas hijas hayan finalizado
+            ///////////////////////////////////////////////////////////////////////////////////////
+
+            Task padre = Task.Run(() =>
+            {
+                Console.WriteLine("Tarea Padre Comienza");
+                Task hijo = Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("Tarea Hija Comienza");
+                    Thread.SpinWait(10000);
+                    Console.WriteLine("Tarea Hija Finaliza");
+                }, TaskCreationOptions.AttachedToParent);
+            });
+            padre.Wait();
+            Console.WriteLine("Tarea Padre Finaliza");
         }
 
-        static void Adicionar1(int a, int b)
-        { 
-            Console.WriteLine($"{a + b}");
-        }
-
-        static void Adicionar2(string a, string b)
+        /// <summary>
+        /// Ejecutar método en paralelo
+        /// </summary>
+        static void ParallelInvoke()
         {
-            Console.WriteLine($"{a + b}");
+            Parallel.Invoke(
+                () => Demos.MetodoTest(),
+                () => Demos.MetodoTest(),
+                () => Demos.MetodoTest("testing"),
+                () => { Console.WriteLine("Método ejecutado en paralelo."); }
+            );
         }
 
+        /// <summary>
+        /// Ejecutar un FOR en paralelo
+        /// </summary>
         static void ParallelFor()
         {
             double[] array = new double[50000000];
 
+            // Calculamos la raíz cuadrada de 50.000.000 número mediante un FOR y un FOR en paralelo
             var f1 = DateTime.Now;
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 1; i < array.Length; i++)
             {
                 array[i] = Math.Sqrt(i);
             }
             var f2 = DateTime.Now;
-            Parallel.For(0, 49999999, (i) =>
-            {
+            Parallel.For(1, 49999999, (i) => {
                 array[i] = Math.Sqrt(i);
             });
             var f3 = DateTime.Now;
 
+            // Mostramos costes de proceso en milisegundos
             Console.WriteLine($"         FOR -> {f2.Subtract(f1).TotalMilliseconds} ms.");
             Console.WriteLine($"PARALLEL FOR -> {f3.Subtract(f2).TotalMilliseconds} ms.");
         }
 
+        /// <summary>
+        /// Ejecutar un FOREACH en paralelo
+        /// </summary>
         static void ParallelForeach()
         {
-            var db = new ModelNorthwind();
+            var context = new ModelNorthwind();
 
-            var clientes = db.Customers
+            // Buscar clientes en una base de datos utilizando LINQ
+            var clientes = context.Customers
                 .Where(r => r.Country == "USA")
-                .OrderBy(r => r.City)
                 .ToList();
 
-            foreach (var item in clientes) 
-                Console.WriteLine($"{item.CustomerID} {item.CompanyName} - {item.City}");
+            // Recorremos la colección mediante FOREACH
+            foreach (var item in clientes) Console.WriteLine($"{item.CustomerID} {item.CompanyName}");
+            Console.WriteLine("");
 
-            Console.WriteLine(Environment.NewLine);
+            // Recorremos la colección mediante FOREACH en paralelo
+            Parallel.ForEach(clientes, item => Console.WriteLine($"{item.CustomerID} {item.CompanyName}"));
 
-            var clientes2 = db.Customers
-                 .Where(r => r.Country == "USA")
-                 .ToList()
-                 .AsParallel();
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            Parallel.ForEach(clientes2,
-                item => Console.WriteLine($"{item.CustomerID} {item.CompanyName} - {item.City}"));
-        }
+            // Buscar clientes en una base de datos utilizando LINQ
+            clientes = context.Customers
+                .ToList();
 
-        static void CrearTareas()
-        {
-            Task tarea1 = new Task(new Action(() => { Console.WriteLine("Método con un Action"); }));
-            Task tarea2 = new Task(new Action(MetodoTest));
-            Task tarea3 = new Task(delegate { Console.WriteLine("Tarea 3"); });
-            Task tarea4 = new Task(() => { Console.WriteLine("Tarea 4"); }); 
-            Task tarea5 = new Task(() => MetodoTest());
+            // Realizamos cambios recorriendo la colección mediante un FOREACH
+            var f1 = DateTime.Now;
+            foreach (var item in clientes)
+            {
+                item.City = "";
+                item.Country = "";
+            }
+            var f2 = DateTime.Now;
 
-            ////////////////////////////////////////////////////////////
 
-            Task tarea6 = Task.Run(() => { Console.WriteLine("Tarea 6"); });
+            // Buscar clientes en una base de datos utilizando LINQ
+            clientes = context.Customers
+                .ToList();
 
-            Task<string> tarea7 = Task.Run(() => { 
-                Thread.Sleep(15000);
-                Console.WriteLine("Tarea 7");
-                return "Tarea 7";
+            // Realizamos cambios recorriendo la colección mediante un FOREACH en paralelo
+            var f3 = DateTime.Now;
+            Parallel.ForEach(clientes, item => {
+                item.City = "";
+                item.Country = "";
             });
+            var f4 = DateTime.Now;
 
-            Console.WriteLine($"Estado tarea 1: {tarea1.Status}");
-            Console.WriteLine($"Estado tarea 7: {tarea7.Status}");
-
-            tarea7.Wait(2000);
-            var resultado = tarea7.Result;
-
-            Task[] tareas = { tarea6, tarea7 };
-            Task.WaitAll(tareas);
-            Task.WaitAll(tareas, 2000);
-            Task.WaitAny(tareas);
-            Task.WaitAny(tareas, 3000);
-
-            tarea1.Start();
-            tarea2.Start(); 
-            tarea3.Start();
-            tarea4.Start();
-            tarea5.Start();
-
-            Console.WriteLine($"Estado tarea 1: {tarea1.Status}");
-            Console.WriteLine($"Estado tarea 7: {tarea7.Status}");
-
-            //////////////////////////////////////////////////////////////////
-
-            Parallel.Invoke(
-                () => Console.WriteLine("Demo Paralelo"),
-                () => { Console.WriteLine("Demo Paralelo2"); },
-                () => MetodoTest(),
-                () => MetodoTest()
-            );
+            // Mostramos costes de proceso en milisegundos
+            Console.WriteLine($"         FOREACH -> {f2.Subtract(f1).TotalMilliseconds} ms.");
+            Console.WriteLine($"PARALLEL FOREACH -> {f4.Subtract(f3).TotalMilliseconds} ms.");
         }
 
+        /// <summary>
+        /// Ejecutar consultas de LINQ en paralelo
+        /// </summary>
+        static void ParallelLinq()
+        {
+            var context = new ModelNorthwind();
+
+            // Lanzamos dos consultas iguales una en paralelo
+            var f1 = DateTime.Now;
+            var clientes = context.Customers
+                .Where(r => r.Country == "USA")
+                .ToList();
+            var f2 = DateTime.Now;
+            var clientes2 = context.Customers
+                .AsParallel()
+                .Where(r => r.Country == "USA")
+                .ToList();
+            var f3 = DateTime.Now;
+
+            // Mostramos costes de proceso en milisegundos
+            Console.WriteLine($" LINQ -> {f2.Subtract(f1).TotalMilliseconds} ms.");
+            Console.WriteLine($"PLINQ -> {f3.Subtract(f2).TotalMilliseconds} ms.");
+
+            // Los datos recuperados tienen siempre el mismo orden
+            foreach (var item in clientes) Console.WriteLine($"{item.CustomerID} {item.CompanyName}");
+            Console.WriteLine("");
+
+            // Los datos recuperados en paralelo no tienen siempre el mismo orden
+            foreach (var item in clientes2) Console.WriteLine($"{item.CustomerID} {item.CompanyName}");
+        }
+
+        /// <summary>
+        /// Utilizar async y await
+        /// </summary>
         static async void DemoAsync()
         {
-            var obj = new DemoObject();
-            string resultado = await obj.MetodoAsync();
-        }
+            // PROBAR CADA TEST POR SEPARADO COMENTANDO LAS LÍNEAS DE OTROS BLOQUES DE TEST //
 
-        static void MetodoTest()
-        {
-            Console.WriteLine("Método Test");
-        }
+            Console.WriteLine(" Inicio DemoAsync");
 
-        static void Procesar(IVehiculo item)
-        { 
-            Console.WriteLine(item.Nombre);
-            item.Iniciar();
+            var obj = new Calculate();
 
-            Console.WriteLine(item.GetType());
+            ///////////////////////////////////////////////////////////////////////////
+            // Test 1 - Ejecutar el método síncrono
+            ///////////////////////////////////////////////////////////////////////////
 
-            if (typeof(Avion) == item.GetType())
-            {
-                ((Avion)item).Despegar();                
-            }
-            else if (typeof(Coche) == item.GetType())
-            {
-                ((Coche)item).Test();
-            }
-        }
+            obj.Start();
+            for (var i = 49000000; i < 49000011; i++) Console.WriteLine(obj.Array[i]);
 
-        static void EjemploHerencia1()
-        {
-            var list = new List<string>();
-            list.Add("Adios");
-            list.Add("Mundo");
 
-            var col = new Coleccion<string>();
-            col.Add("Hola");
-            col.Add("Mundo");
-            col.OutputAll();
-        }
+            ///////////////////////////////////////////////////////////////////////////
+            // Test 2a - Ejecutar el método asíncrono (equivalente al síncrono)
+            ///////////////////////////////////////////////////////////////////////////
 
-        static void EjemploHerencia2()
-        {
-            var animal = new Animal();
-            animal.MetodoA();
-            animal.MetodoB();
-            Console.WriteLine(Environment.NewLine);
+            var task = obj.StartAsync();
+            task.Wait();
+            for (var i = 49000000; i < 49000011; i++) Console.WriteLine(obj.Array[i]);
 
-            var mamifero = new Mamifero();
-            mamifero.MetodoA();
-            mamifero.MetodoB();
-            Console.WriteLine(Environment.NewLine);
 
-        }
+            ///////////////////////////////////////////////////////////////////////////
+            // Test 2b - Ejecutar el método asíncrono (equivalente al síncrono)
+            ///////////////////////////////////////////////////////////////////////////
 
-        static void EjemploPoliformismo1()
-        {
-            Coche coche = new Coche()
-            {
-                Nombre = "Hunday Tucson",
-                Ruedas = 4,
-                Color = "Rojo"
+            _ = obj.StartAsync().Result;
+            for (var i = 49000000; i < 49000011; i++) Console.WriteLine(obj.Array[i]);
+
+
+            ///////////////////////////////////////////////////////////////////////////
+            // Test 2c - Ejecutar el método asíncrono (sin bloquear el hilo principal)
+            ///////////////////////////////////////////////////////////////////////////
+
+            await obj.StartAsync();
+            for (var i = 49000000; i < 49000011; i++) Console.WriteLine(obj.Array[i]);
+
+
+            ///////////////////////////////////////////////////////////////////////////
+            // Test 3 - Ejecutar el método asíncrono
+            ///////////////////////////////////////////////////////////////////////////
+
+            obj.EndCalculations += (sender, e) => {
+                for (var i = 49000000; i < 49000011; i++) Console.WriteLine(((Calculate)sender).Array[i]);
             };
-            Console.WriteLine("COCHE ============================");
-            coche.Iniciar();
-            coche.Test();
+            obj.StartAsync();
 
+            Console.WriteLine(" Fin DemoAsync");
 
-            Avion avion = new Avion()
-            {
-                Nombre = "Jumbo 787",
-                Ruedas = 8
-            };
-            Console.WriteLine("AVIÓN ============================");
-            avion.Iniciar();
-            avion.Despegar();
-
-            Console.WriteLine("VEHÍCULO COCHE ===================");
-            IVehiculo vehiculo = coche;
-            vehiculo.Iniciar();
-
-            Console.WriteLine("VEHÍCULO AVIÓN ===================");
-            vehiculo = avion;
-            vehiculo.Iniciar();
-
-            Console.WriteLine("PROCESAR =========================");
-            Procesar(coche);
-        }
-
-        static void EjemploPoliformismo2()
-        {
-            var formas = new List<Forma>();
-
-            formas.Add(new Forma());
-            formas.Add(new Circulo());
-            formas.Add(new Cuadrado());
-            formas.Add(new Triangulo());
-
-            foreach(var item in formas) item.Dibujar();
-        }
-
-        static void EjemploClasesAbstractas()
-        { 
-            var nevera = new Nevera() 
-                { Nombre = "Nevera Demo", Color = "Rojo", Consumo = "200W" };
-
-            nevera.MetodoA();
-            nevera.MetodoB();
-            nevera.MetodoC();
         }
     }
+}
 
-    public class Lista<T>
+namespace Programando.CSharp.Objects
+{
+    /// <summary>
+    /// Objeto para demostraciones
+    /// </summary>
+    public static class Demos
     {
-        T[] Items = new T[2];
-
-        public void Add(T item)
+        /// <summary>
+        /// Método para Test
+        /// </summary>
+        public static void MetodoTest()
         {
-            Items[0] = item;    
+            Console.WriteLine($"Método Test");
         }
-    }
 
-    public class DemoObject2<T>
-    {
-        public T a { get; set; }
-        public T b { get; set; }
-
-        public void Adicionar()
+        /// <summary>
+        /// Método para Test
+        /// </summary>
+        /// <param name="data">Datos</param>
+        public static void MetodoTest(string data)
         {
-            if (typeof(T) == typeof(string))
-            {
-                string n1 = Convert.ToString(a);
-                string n2 = Convert.ToString(b);
+            Console.WriteLine($"Método Test, datos: {data}");
+        }
 
-                Console.WriteLine($"{n1 + n2}");
-            }
-            else if (typeof(T) == typeof(int))
+        /// <summary>
+        /// Método para Test
+        /// </summary>
+        /// <param name="token">Token de Cancelación</param>
+        /// <returns></returns>
+        public static int MetodoTest(CancellationToken token)
+        {
+            int result = 0;
+            while (true)
             {
-                int n1 = Convert.ToInt32(a);
-                int n2 = Convert.ToInt32(b);
+                result++;
 
-                Console.WriteLine($"{n1 + n2}");
-            }
-            else
-            {
-                Console.WriteLine("No se puede procesar");
+                // Cuando se ejecuta el método .Cancel() de token de cancelación (ver línea 153)
+                // la propiedad .IsCancellationRequested toma el valor TRUE
+                if (token.IsCancellationRequested) return result;
             }
         }
     }
 
-    public class DemoObject
+    /// <summary>
+    /// Objeto Calcular, implementa métodos síncronos y asíncronos
+    /// </summary>
+    public class Calculate
     {
-        public string MetodoSync()
-        {            
-            Task<string> tarea = Task.Run(() => {
-                Console.WriteLine("INICIO TAREA");
-                Thread.Sleep(3000);
-                Console.WriteLine("Tarea");                
-                Console.WriteLine("FIN TAREA");
+        private double[] array = new double[50000000];
+        public event EventHandler<string> EndCalculations;
 
-                return "Tarea";
+        public double[] Array
+        {
+            get => array; set => array = value;
+        }
+
+        /// <summary>
+        /// Método síncrono
+        /// </summary>
+        /// <returns></returns>
+        public bool Start()
+        {
+            for (int i = 1; i < array.Length; i++) array[i] = Math.Sqrt(i);
+            Console.WriteLine("FIN DEL CALCULO");
+
+            return true;
+        }
+
+        /// <summary>
+        /// Método asíncrono
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> StartAsync()
+        {
+            return Task<bool>.Run(() => {
+                for (int i = 1; i < array.Length; i++) array[i] = Math.Sqrt(i);
+                Console.WriteLine("FIN DEL CALCULO");
+
+                return true;
             });
-           
-            return tarea.Result;
         }
 
-        public Task<string> MetodoAsync2()
+        /// <summary>
+        /// Método asíncrono con control de eventos
+        /// </summary>
+        /// <returns></returns>
+        public Task<bool> StartAsyncWithEvent()
         {
-            return Task<string>.Run(() => {
-                Console.WriteLine("INICIO TAREA");
-                Thread.Sleep(3000);
-                Console.WriteLine("Tarea");
-                Console.WriteLine("FIN TAREA");
+            return Task<bool>.Run(() => {
+                for (int i = 1; i < array.Length; i++) array[i] = Math.Sqrt(i);
+                Console.WriteLine("FIN DEL CALCULO");
 
-                return "Tarea";
+                EndCalculations?.Invoke(this, DateTime.Now.ToString("dd-MM-yyyy HH:MM"));
+
+                return true;
             });
         }
-
-        public async Task<string> MetodoAsync()
-        {
-            return await Task<string>.Run(() => {
-                Console.WriteLine("INICIO TAREA");
-                Thread.Sleep(3000);
-                Console.WriteLine("Tarea");
-                Console.WriteLine("FIN TAREA");
-
-                return "Tarea";                
-            });
-        }
-    }
-
-    public class Coleccion<T> : List<T>
-    {
-        public void OutputAll()
-        {
-            foreach (var item in this) Console.WriteLine($"{item.ToString()}");
-        }
-    }
-
-    public class Animal
-    { 
-        public string Nombre { get; set; }
-        public string Familia { get; set; }
-
-        public virtual void MetodoA()
-        {
-            Console.WriteLine($"Método A, implementado en Animal.");            
-        }
-        public void MetodoB()
-        {
-            Console.WriteLine($"Método B, implementado en Animal.");
-        }
-    }
-
-    public sealed class Mamifero : Animal
-    {
-        public override void MetodoA()
-        {
-            Console.WriteLine($"Método A, implementado en Mamifero.");
-            base.MetodoA();
-        }
-    }
-
-    // No se puede heredar de Mamifero cuando la clase esta sellada con SEALED
-    //public class Oso : Mamifero
-    //{ 
-    //}
-
-    public interface IVehiculo
-    { 
-        public string Nombre { get; set; }
-        public int Ruedas { get; set; }
-
-        public void Iniciar();
-        public void Parar();
-    }
-
-    public class Coche : IVehiculo
-    {
-        public string Nombre { get; set; }
-        public int Ruedas { get; set; }
-        public string Color { get; set; }
-
-        public void Iniciar() => Console.WriteLine($"Coche {Color} en marcha.");
-        public void Parar() => Console.WriteLine("Coche parado.");
-        public void Test() => Console.WriteLine("Coche chequeandose.");
-
-        void IVehiculo.Iniciar() => Console.WriteLine("Vehículo en marcha.");
-        void IVehiculo.Parar() => Console.WriteLine("Vehículo parado.");
-    }
-
-    public class Avion : IVehiculo
-    {
-        public string Nombre { get; set; }
-        public int Ruedas { get; set; }
-        public void Iniciar() => Console.WriteLine("Avión en marcha.");
-        public void Parar() => Console.WriteLine("Avión parado.");
-        public void Despegar() => Console.WriteLine("Avión despengado.");
-        public void Aterrizar() => Console.WriteLine("Avión aterrizando.");
-    }
-
-    public class Forma
-    { 
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Z { get; set; }
-
-        public virtual void Dibujar() => Console.WriteLine("Método Dibujar en Forma");
-    }
-
-    public class Circulo : Forma
-    {
-        public override void Dibujar() => Console.WriteLine("Método Dibujar en Cirulo");
-    }
-
-    public class Cuadrado : Forma
-    {
-        public override void Dibujar() => Console.WriteLine("Método Dibujar en Cuadrado");
-    }
-
-    public class Triangulo : Forma
-    {
-        public override void Dibujar() => Console.WriteLine("Método Dibujar en Triangulo");
-        public void Tipo() => Console.WriteLine("Muestra el tipo del triangulo.");
-    }
-
-    public abstract class Electrodomestico
-    { 
-        public string Nombre { get; set; }
-        public abstract string Color { get; set; }
-
-        public void MetodoA() => Console.WriteLine("Método A en Electrodomestico.");
-        public abstract void MetodoB();
-    }
-
-    public class Nevera : Electrodomestico
-    {
-        public override string Color { get ; set; }
-        public string Consumo { get; set; }
-
-        public override void MetodoB() => Console.WriteLine("Método B en Nevera.");
-        public void MetodoC() => Console.WriteLine("Método C en Nevera.");
     }
 }

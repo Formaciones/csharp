@@ -40,14 +40,49 @@ Contenidos, Ejemplos y Ejercicios de C#
 &nbsp;
 ---
 &nbsp;
+### ***El proyecto Programando.CSharp.ConsoleApp4 contiene:***
+* Creación de Tareas
+* Ejecutar métodos en paralelo
+* Ejecutar For en paralelo
+* Ejecutar ForEach en paralelo
+* Ejecutar Linq en parelelo
+* Uso de async/await
+* [***Más Información***](https://docs.microsoft.com/es-es/dotnet/csharp/programming-guide/concepts/async/)
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.ConsoleApp5 contiene:***
+* Implementar Herencia
+* [***Más Información***](https://learn.microsoft.com/es-es/dotnet/csharp/fundamentals/object-oriented/inheritance/)
+* Implementar Poliformismo
+* [***Más Información***](https://learn.microsoft.com/es-es/dotnet/csharp/fundamentals/object-oriented/polymorphism/)
+&nbsp;
+---
+&nbsp;
 ### ***El proyecto Programando.CSharp.ConsoleEF contiene:***
 * Consultas con ADO.NET
 * Trabajando con Entity Framework Core
 &nbsp;
 ---
 &nbsp;
+### ***El proyecto Programando.CSharp.ConsoleHttpClient contiene:***
+* Ejemplo de una llamada GET
+* Ejemplo de una llamada POST
+* Ejemplo de una llamada PUT
+* Ejemplo de una llamada DELETE
+* Ejemplo utilización de método abreviados
+* Ejemplo Eco, como preparar Headers y Body, y procesar la respuesta
+* [***Más Información***](https://docs.microsoft.com/es-es/dotnet/api/system.net.http.httpclient?view=net-5.0)
+&nbsp;
+---
+&nbsp;
 ### ***El proyecto Programando.CSharp.WebApplication1 contiene:***
 * Integración de Entity Framework Core en una aplicación Web MVC
+&nbsp;
+---
+&nbsp;
+### ***El proyecto Programando.CSharp.WebAPI1 contiene:***
+* Creación de un micro servicio Web APIRest, implementado el CRUD
 &nbsp;
 ---
 &nbsp;
